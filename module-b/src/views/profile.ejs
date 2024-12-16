@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Profile</title>
+    </head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .profile {
+            background-color: whitesmoke;
+            padding: 1rem;
+            font-weight: bold;
+            border-radius: 0.5rem;
+            shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+    <body>
+        <div class="profile">
+            <p>User name: <%= username; %></p>
+        </div>
+    </body>
+</html>
