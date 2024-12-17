@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Tortotoro</title>
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <script defer src="assets/js/main.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <article class="modal">
+        <form action="/api-cafe" method="post">
+          <h2>Добавление нового сотрудника</h2>
+          <div>
+            <label for="name">Имя</label>
+            <input type="text" name="name" id="name" />
+          </div>
+          <div>
+            <label for="login">Логин</label>
+            <input type="text" name="login" id="login" />
+          </div>
+          <div>
+            <label for="password">Пароль</label>
+            <input type="password" name="password" id="password" />
+          </div>
+          <div>
+            <label for="photo_file" class="photo_input">Фото</label>
+            <input type="file" name="photo" id="photo_file" />
+          </div>
+          <div>
+            <label for="role">Роль</label>
+            <select name="role" id="role">
+              <option value="nothing" selected disabled>Выберите роль:</option>
+              <option value="1">Администратор</option>
+              <option value="2">Официант</option>
+              <option value="3">Повар</option>
+            </select>
+          </div>
+          <div>
+            <button class="approve_button" type="submit">Отправить</button>
+            <button class="cancel_button">Отмена</button>
+          </div>
+        </form>
+        <form style="display: none">
+          <h2>Авторизация</h2>
+          <div>
+            <label for="login_enter">Логин</label>
+            <input type="text" name="login" id="login_enter" />
+          </div>
+          <div>
+            <label for="password_enter">Пароль</label>
+            <input type="password" name="password" id="password_enter" />
+          </div>
+          <div>
+            <button class="approve_button">Отправить</button>
+            <button class="cancel_button">Отмена</button>
+          </div>
+        </form>
+        <form style="display: none">
+          <h2>Добавление смены</h2>
+          <div>
+            <label for="start">Начало</label>
+            <input type="datetime-local" name="login" id="start" />
+          </div>
+          <div>
+            <label for="end">Конец</label>
+            <input type="datetime-local" name="password" id="end" />
+          </div>
+          <div>
+            <button class="approve_button">Отправить</button>
+            <button class="cancel_button">Отмена</button>
+          </div>
+        </form>
+        <form style="display: none">
+          <h2>Добавление заказа</h2>
+          <div>
+            <label for="work_shift_id">Работник</label>
+            <input type="text" name="login" id="work_shift_id" />
+          </div>
+          <div>
+            <label for="table_id">Номер столика</label>
+            <input type="number" name="password" id="table_id" />
+          </div>
+          <div>
+            <label for="number_of_person">Количество персон</label>
+            <input type="number" name="password" id="number_of_person" />
+          </div>
+          <div>
+            <button class="approve_button">Отправить</button>
+            <button class="cancel_button">Отмена</button>
+          </div>
+        </form>
+      </article>
+      <header>
+        <article>
+          <img src="assets/img/logo.png" alt="logo" />
+        </article>
+        <nav>
+          <a href="#">Сотрудники</a>
+          <a href="#">Смены</a>
+          <a href="#">Заказы</a>
+          <a href="#" class="approve_button">Вход</a>
+          <a href="#" class="cancel_button">Выход</a>
+        </nav>
+      </header>
+      <main>
+        <section class="employees" style="display: none">
+          <article>
+            <span>Имя</span>
+            <span>Статус</span>
+            <span>Должность</span>
+            <button>+</button>
+          </article>
+          <article>
+            <span>Ariane</span>
+            <span class="working">Работает</span>
+            <span>Администратор</span>
+            <button>Подробнее</button>
+          </article>
+          <article>
+            <span>John</span>
+            <span class="fired">Уволен</span>
+            <span>Администратор</span>
+            <button>Подробнее</button>
+          </article>
+          <article>
+            <span>Ariane</span>
+            <span class="working">Работает</span>
+            <span>Администратор</span>
+            <button>Подробнее</button>
+          </article>
+          <article>
+            <span>Ariane</span>
+            <span class="working">Работает</span>
+            <span>Официант</span>
+            <button>Подробнее</button>
+          </article>
+          <article>
+            <span>John</span>
+            <span class="fired">Уволен</span>
+            <span>Повар</span>
+            <button>Подробнее</button>
+          </article>
+        </section>
+        <section class="shift" style="display: none">
+          <button class="approve_button">Добавить смену</button>
+          <article>
+            <h2>Смена №5</h2>
+            <p>Начало смены в 2021-09-19 08:00</p>
+            <p>Конец смены в 2021-09-19 18:00</p>
+            <p class="working">Статус: Открыта</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Смена №4</h2>
+            <p>Начало смены в 2021-09-18 08:00</p>
+            <p>Конец смены в 2021-09-18 18:00</p>
+            <p class="fired">Статус: Закрыта</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Смена №3</h2>
+            <p>Начало смены в 2021-09-17 08:00</p>
+            <p>Конец смены в 2021-09-17 18:00</p>
+            <p class="fired">Статус: Закрыта</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Смена №2</h2>
+            <p>Начало смены в 2021-09-16 08:00</p>
+            <p>Конец смены в 2021-09-16 18:00</p>
+            <p class="fired">Статус: Закрыта</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Смена №1</h2>
+            <p>Начало смены в 2021-09-15 08:00</p>
+            <p>Конец смены в 2021-09-15 18:00</p>
+            <p class="fired">Статус: Закрыта</p>
+            <button class="approve_button">Управление</button>
+          </article>
+        </section>
+        <section class="orders" style="display: none">
+          <button class="approve_button">Принять заказ</button>
+          <article>
+            <h2>Столик №1</h2>
+            <p>Официант: John</p>
+            <p class="fired">Статус: Отмена</p>
+            <p>Цена: 9238</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Столик №2</h2>
+            <p>Официант: John</p>
+            <p class="working">Статус: Принят</p>
+            <p>Цена: 238</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Столик №3</h2>
+            <p>Официант: John</p>
+            <p class="working">Статус: Готов</p>
+            <p>Цена: 1436</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Столик №4</h2>
+            <p>Официант: John</p>
+            <p class="working">Статус: Оплачен</p>
+            <p>Цена: 2316</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Столик №5</h2>
+            <p>Официант: John</p>
+            <p class="working">Статус: Оплачен</p>
+            <p>Цена: 345345</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Столик №6</h2>
+            <p>Официант: Mike</p>
+            <p class="working">Статус: Оплачен</p>
+            <p>Цена: 1212</p>
+            <button class="approve_button">Управление</button>
+          </article>
+        </section>
+      </main>
+      <footer>
+        <article>&copy; Tortotoro - все права защищены</article>
+        <article>8(888)777-44-11</article>
+      </footer>
+    </div>
+  </body>
+</html>

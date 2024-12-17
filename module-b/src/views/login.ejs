@@ -1,132 +1,163 @@
 <!doctype html>
-<html lang="en">
-<head>
+<html lang="ru">
+  <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .form {
-            display: flex;
-            flex-flow: column;
-            background-color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-
-        .form h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .form input {
-            padding: 0.8rem 1rem;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .form input:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        .form button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .form button:hover {
-            background-color: #0056b3;
-        }
-        #error {
-            margin-top: 1rem;
-        }
-
-        .link {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            text-decoration: none;
-            color: white;
-            background-color: #007BFF;
-            padding: 10px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            pointer: cursor;
-        }
-
-        .link:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    <a class="link" href="/">Go back</a>
-    <form id="form" class="form">
-          <h2>Login</h2>
-          <input type="text" name="username" placeholder="Your name" required />
-          <input type="password" name="password" placeholder="Your password" required />
-          <button type="submit">Submit</button>
-          <center>
-              <span id="error" style="color: red;"></span>
-          </center>
-    </form>
-      <script>
-              const form = document.getElementById("form");
-              const error = document.getElementById("error");
-
-              form.addEventListener("submit", async (e) => {
-                  e.preventDefault();
-
-                  const formData = new FormData(form);
-                  const username = formData.get("username");
-                  const password = formData.get("password");
-
-                  try {
-                      const response = await fetch("/login", {
-                          method: "POST",
-                          headers: {
-                              'Content-Type': 'application/json',
-                          },
-                          body: JSON.stringify({ username, password }),
-                      });
-
-                      if (!response.ok) {
-                          throw new Error("Unexpected error has occurred.");
-                      }
-                      const { nextUrl } = await response.json();
-                      const WAIT_TIME = 1000; // 1 second
-                      form.className += " form--success";
-                      setTimeout(() => {
-                          const fullUrlWithoutRoute = `${window.location.protocol}//${window.location.host}`;
-                          window.location.assign(fullUrlWithoutRoute + nextUrl);
-                      }, WAIT_TIME);
-
-                  } catch (err) {
-                      console.log(err);
-                      error.textContent = "Invalid credentials"; // Display the error message
-                  }
-              });
-      </script>
-</body>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Tortotoro</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script defer src="assets/js/main.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <article class="modal">
+        <form>
+          <h2>Авторизация</h2>
+          <div>
+            <label for="login_enter">Логин</label>
+            <input type="text" name="login" id="login_enter" />
+          </div>
+          <div>
+            <label for="password_enter">Пароль</label>
+            <input type="password" name="password" id="password_enter" />
+          </div>
+          <div>
+            <button class="approve_button">Отправить</button>
+            <button class="cancel_button">Отмена</button>
+          </div>
+        </form>
+        <form style="display: none">
+          <h2>Добавление смены</h2>
+          <div>
+            <label for="start">Начало</label>
+            <input type="datetime-local" name="login" id="start" />
+          </div>
+          <div>
+            <label for="end">Конец</label>
+            <input type="datetime-local" name="password" id="end" />
+          </div>
+          <div>
+            <button class="approve_button">Отправить</button>
+            <button class="cancel_button">Отмена</button>
+          </div>
+        </form>
+        <form style="display: none">
+          <h2>Добавление заказа</h2>
+          <div>
+            <label for="work_shift_id">Работник</label>
+            <input type="text" name="login" id="work_shift_id" />
+          </div>
+          <div>
+            <label for="table_id">Номер столика</label>
+            <input type="number" name="password" id="table_id" />
+          </div>
+          <div>
+            <label for="number_of_person">Количество персон</label>
+            <input type="number" name="password" id="number_of_person" />
+          </div>
+          <div>
+            <button class="approve_button">Отправить</button>
+            <button class="cancel_button">Отмена</button>
+          </div>
+        </form>
+      </article>
+      <header>
+        <article>
+          <img src="assets/img/logo.png" alt="logo" />
+        </article>
+        <nav>
+          <a href="#">Сотрудники</a>
+          <a href="#">Смены</a>
+          <a href="#">Заказы</a>
+          <a href="#" class="approve_button">Вход</a>
+          <a href="#" class="cancel_button">Выход</a>
+        </nav>
+      </header>
+      <main>
+        <section class="employees" style="display: none">
+          <article>
+            <span>Имя</span>
+            <span>Статус</span>
+            <span>Должность</span>
+            <button>+</button>
+          </article>
+          <article>
+            <span>Ariane</span>
+            <span class="working">Работает</span>
+            <span>Администратор</span>
+            <button>Подробнее</button>
+          </article>
+          <article>
+            <span>John</span>
+            <span class="fired">Уволен</span>
+            <span>Администратор</span>
+            <button>Подробнее</button>
+          </article>
+          <article>
+            <span>Ariane</span>
+            <span class="working">Работает</span>
+            <span>Администратор</span>
+            <button>Подробнее</button>
+          </article>
+          <article>
+            <span>Ariane</span>
+            <span class="working">Работает</span>
+            <span>Официант</span>
+            <button>Подробнее</button>
+          </article>
+          <article>
+            <span>John</span>
+            <span class="fired">Уволен</span>
+            <span>Повар</span>
+            <button>Подробнее</button>
+          </article>
+        </section>
+        <section class="shift" style="display: none">
+          <button class="approve_button">Добавить смену</button>
+          <article>
+            <h2>Смена №5</h2>
+            <p>Начало смены в 2021-09-19 08:00</p>
+            <p>Конец смены в 2021-09-19 18:00</p>
+            <p class="working">Статус: Открыта</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Смена №4</h2>
+            <p>Начало смены в 2021-09-18 08:00</p>
+            <p>Конец смены в 2021-09-18 18:00</p>
+            <p class="fired">Статус: Закрыта</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Смена №3</h2>
+            <p>Начало смены в 2021-09-17 08:00</p>
+            <p>Конец смены в 2021-09-17 18:00</p>
+            <p class="fired">Статус: Закрыта</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Смена №2</h2>
+            <p>Начало смены в 2021-09-16 08:00</p>
+            <p>Конец смены в 2021-09-16 18:00</p>
+            <p class="fired">Статус: Закрыта</p>
+            <button class="approve_button">Управление</button>
+          </article>
+          <article>
+            <h2>Смена №1</h2>
+            <p>Начало смены в 2021-09-15 08:00</p>
+            <p>Конец смены в 2021-09-15 18:00</p>
+            <p class="fired">Статус: Закрыта</p>
+            <button class="approve_button">Управление</button>
+          </article>
+        </section>
+      </main>
+      <footer>
+        <article>&copy; Tortotoro - все права защищены</article>
+        <article>8(888)777-44-11</article>
+      </footer>
+    </div>
+  </body>
 </html>
