@@ -1,7 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "tsx --watch ./src/server.ts"
+    "dev": "tsx --watch ./src/server.ts",
+    "format": "exec prettier --write ./src/views"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",

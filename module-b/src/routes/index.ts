@@ -18,7 +18,10 @@ router.post("", upload.single("photo"), (req, res) => {
     ...req.body,
     photo: req.file,
   });
-  res.status(StatusCodes.OK).json({ message: "Added user" });
+  // Guess it would have been  better to have front on a separate server.
+  res
+    .status(StatusCodes.OK)
+    .sendFile(joinWithAbsolutePath("src/views/index.html"));
 });
 router.use(loginRoute);
 

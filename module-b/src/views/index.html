@@ -14,7 +14,30 @@
   <body>
     <div class="wrapper">
       <article class="modal">
-        <form action="/api-cafe" method="post">
+        <script type="module">
+          const baseRoute = "/api-cafe";
+          const currentRoute = window.location.pathname;
+          const mappingUrlToElementId = {
+            [baseRoute]: "admin-dashboard",
+            [baseRoute + "/login"]: "login",
+            [baseRoute + "/admin/shifts"]: "shifts",
+            [baseRoute + "/admin/orders"]: "orders",
+            [baseRoute + "/admin"]: "admin-nav",
+            [baseRoute + "/admin/employees"]: "employee-list",
+          };
+
+          const elId = mappingUrlToElementId[currentRoute];
+          const el = document.getElementById(elId);
+          console.log(el, currentRoute, elId);
+          el.style.display = "block";
+        </script>
+        <form
+          id="admin-dashboard"
+          action="/api-cafe"
+          method="post"
+          enctype="multipart/form-data"
+          style="display: none"
+        >
           <h2>Добавление нового сотрудника</h2>
           <div>
             <label for="name">Имя</label>
@@ -43,10 +66,16 @@
           </div>
           <div>
             <button class="approve_button" type="submit">Отправить</button>
-            <button class="cancel_button">Отмена</button>
+            <button
+              class="cancel_button"
+              type="button"
+              onclick="document.getElementById('admin-dashboard').reset();"
+            >
+              Отмена
+            </button>
           </div>
         </form>
-        <form style="display: none">
+        <form id="login" style="display: none">
           <h2>Авторизация</h2>
           <div>
             <label for="login_enter">Логин</label>
@@ -61,7 +90,7 @@
             <button class="cancel_button">Отмена</button>
           </div>
         </form>
-        <form style="display: none">
+        <form id="shifts" style="display: none">
           <h2>Добавление смены</h2>
           <div>
             <label for="start">Начало</label>
@@ -76,7 +105,7 @@
             <button class="cancel_button">Отмена</button>
           </div>
         </form>
-        <form style="display: none">
+        <form id="orders" style="display: none">
           <h2>Добавление заказа</h2>
           <div>
             <label for="work_shift_id">Работник</label>
@@ -96,7 +125,7 @@
           </div>
         </form>
       </article>
-      <header>
+      <header id="admin-nav">
         <article>
           <img src="assets/img/logo.png" alt="logo" />
         </article>
@@ -108,7 +137,7 @@
           <a href="#" class="cancel_button">Выход</a>
         </nav>
       </header>
-      <main>
+      <main id="employee-list">
         <section class="employees" style="display: none">
           <article>
             <span>Имя</span>
