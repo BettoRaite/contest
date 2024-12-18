@@ -46,8 +46,6 @@ a {
   text-decoration: none;
 }
 
-/* modal */
-
 .modal {
   position: absolute;
   min-width: 100vw;
@@ -56,8 +54,6 @@ a {
   background: rgba(0, 95, 182, 0.98);
   z-index: 100;
 }
-
-/* header section */
 
 header {
   position: sticky;
@@ -107,8 +103,6 @@ header img {
   width: 250px;
   filter: drop-shadow(0 0 3px #005fb6);
 }
-
-/* employees */
 
 .employees > article {
   display: flex;
@@ -176,8 +170,6 @@ header img {
 .fired {
   text-shadow: 0 0 5px #ad0d0d;
 }
-
-/* shift */
 
 .shift {
   display: grid;

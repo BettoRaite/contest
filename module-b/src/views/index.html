@@ -8,8 +8,8 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Tortotoro</title>
-    <link rel="stylesheet" href="./assets/css/main.css" />
-    <script defer src="assets/js/main.js"></script>
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <!-- <script defer src="assets/js/main.js"></script> -->
   </head>
   <body>
     <div class="wrapper">
@@ -19,7 +19,7 @@
           const currentRoute = window.location.pathname;
           const mappingUrlToElementId = {
             [baseRoute]: "admin-dashboard",
-            [baseRoute + "/login"]: "login",
+            [baseRoute + "/login"]: "login-form",
             [baseRoute + "/admin/shifts"]: "shifts",
             [baseRoute + "/admin/orders"]: "orders",
             [baseRoute + "/admin"]: "admin-nav",
@@ -27,6 +27,7 @@
           };
 
           const elId = mappingUrlToElementId[currentRoute];
+          console.log(elId);
           const el = document.getElementById(elId);
           console.log(el, currentRoute, elId);
           el.style.display = "block";
@@ -75,7 +76,12 @@
             </button>
           </div>
         </form>
-        <form id="login" style="display: none">
+        <form
+          id="login-form"
+          action="/api-cafe/login"
+          method="post"
+          style="display: none"
+        >
           <h2>Авторизация</h2>
           <div>
             <label for="login_enter">Логин</label>
@@ -125,7 +131,7 @@
           </div>
         </form>
       </article>
-      <header id="admin-nav">
+      <header id="admin-nav" style="display: none">
         <article>
           <img src="assets/img/logo.png" alt="logo" />
         </article>

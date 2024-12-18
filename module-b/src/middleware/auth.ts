@@ -1,13 +1,21 @@
 import type { Request, Response, NextFunction } from "express";
-import { BEARER_TOKEN_COOKIE } from "../lib/constants.js";
+import jwt from "jsonwebtoken";
+import { SECRET_KEY, BEARER_TOKEN_COOKIE } from "@/lib/constants.js";
+import { users } from "@/models/user.js";
 
-const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
+export const AUTH_KEY = Symbol("Key auth prop on request object");
+export const authenticateToken = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const token: string = req.cookies[BEARER_TOKEN_COOKIE];
-  const { id } = jwt.verify(token, SECRET_KEY) as { id: number };
-  if (!Number.isFinite(id)) {
-    res.status(401).json({ message: "User not authorized" });
+  if (!token) {
+    next();
+    return;
   }
-  req.body.user = users.find((u) => {
+  const { id } = jwt.verify(token, SECRET_KEY) as { id: number };
+  req.body[AUTH_KEY] = users.find((u) => {
     return u.id === id;
   });
   next();
