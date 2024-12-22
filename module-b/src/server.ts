@@ -1,19 +1,12 @@
-import express, {
-  type Request,
-  type Response,
-  type NextFunction,
-} from "express";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
-import { type User, users } from "./models/user.js";
 import cookieParser from "cookie-parser";
-import { StatusCodes } from "http-status-codes";
+import express from "express";
 import { PORT } from "./lib/constants.js";
-import router from "./routes/index.js";
-const BASE_SEGMENT = "/api-cafe";
 import { joinWithAbsolutePath } from "./lib/utils/path.js";
+import router from "./routes/index.js";
 
+const BASE_SEGMENT = "/api-cafe";
 const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(joinWithAbsolutePath("public")));
