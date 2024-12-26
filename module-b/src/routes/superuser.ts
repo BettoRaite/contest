@@ -1,9 +1,11 @@
-import express, { type Router } from "express";
+import express, { type Router, type Request, type Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { joinWithAbsolutePath } from "../lib/utils/path.js";
 import multer from "multer";
 import { users, type User } from "../models/user.js";
 import { SALT } from "../lib/constants.js";
+import { idGenerator } from "../lib/utils/unique.js";
+
 const upload = multer({ dest: "./public/data/uploads/" });
 const router: Router = express.Router();
 
@@ -13,15 +15,16 @@ router.get("", (req, res) => {
     .sendFile(joinWithAbsolutePath("src/views/index.html"));
 });
 
-router.post("", upload.single("photo"), (req, res) => {
-  const { login, password, role, name, id, photo } = req.body as User;
-  users.push({
+router.post("", upload.single("photo"), (req: Request, res: Response) => {
+  const { login, password, role_id, name, photo } = req.body;
+  const id = idGenerator.getId("user");
+  users.set(String(id), {
     id,
     login,
     name,
     password,
-    role,
-    photo,
+    roleId: role_id,
+    photo: req.file,
   });
 
   res
