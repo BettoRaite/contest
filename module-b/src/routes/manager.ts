@@ -1,37 +1,57 @@
-
 import express, { type Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import { idGenerator } from "../lib/utils/unique.js";
 import { authenticateToken } from "../middleware/auth.js";
-import { clientRequests } from "../models/clientRequests.js";
 import { users } from "../models/user.js";
+import { workShifts } from "../models/workshift.js";
 
 const router: Router = express.Router();
-router.post("/client-request", authenticateToken("manager"), (req, res) => {
-  const { description } = req.body;
-  if (!description) {
-    res.status(StatusCodes.BAD_REQUEST).json({
-      message: "No description provided",
-    });
-    return;
-  }
-  const id = idGenerator.getId("request");
-  clientRequests.set(String(id), {
-    id,
-    description,
-    assigneeId: null,
-    status: "idle",
-  });
-  res.status(StatusCodes.OK).json({
-    message: "Successfully added new client request",
-  });
-});
 router.post(
-  "/client-request/:requestId/user",
+  "/work-shift/:id/client-requests",
   authenticateToken("manager"),
   (req, res) => {
+    const { id } = req.params;
+    const workshift = workShifts.get(id);
+    if (!workshift) {
+      res.status(StatusCodes.NOT_FOUND).json({
+        message: "Not found",
+      });
+      return;
+    }
+    const { description } = req.body;
+    if (!description) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        message: "No description provided",
+      });
+      return;
+    }
+    const clientRequests = workshift.clientRequests;
+    const requestId = idGenerator.getId("request");
+    clientRequests.set(String(requestId), {
+      id: requestId,
+      description,
+      assigneeId: null,
+      status: "idle",
+    });
+    res.status(StatusCodes.OK).json({
+      message: "Successfully added new client request",
+    });
+  },
+);
+router.post(
+  "/work-shift/:workshiftId/client-request/:requestId/user",
+  authenticateToken("manager"),
+  (req, res) => {
+    const { workshiftId, requestId } = req.params;
+    const workshift = workShifts.get(workshiftId);
+    if (!workshift) {
+      res.status(StatusCodes.NOT_FOUND).json({
+        message: "Not found",
+      });
+      return;
+    }
+    const { clientRequests } = workshift;
     const { userId } = req.body;
-    const { requestId } = req.params;
     const user = users.get(userId);
     const request = clientRequests.get(requestId);
     if (!request) {
@@ -53,11 +73,19 @@ router.post(
   },
 );
 router.delete(
-  "/client-request/:requestId/user",
+  "/work-shift/:workshiftId/client-request/:requestId/user",
   authenticateToken("manager"),
   (req, res) => {
+    const { workshiftId, requestId } = req.params;
+    const workshift = workShifts.get(workshiftId);
+    if (!workshift) {
+      res.status(StatusCodes.NOT_FOUND).json({
+        message: "Not found",
+      });
+      return;
+    }
+    const { clientRequests } = workshift;
     const { userId } = req.body;
-    const { requestId } = req.params;
     const user = users.get(userId);
     const request = clientRequests.get(requestId);
     if (!request) {
@@ -74,7 +102,7 @@ router.delete(
     }
     request.assigneeId = null;
     res.status(StatusCodes.OK).json({
-      message: "Successfully removed assignee from the task",
+      message: "Successfully reassigned the task",
     });
   },
 );

@@ -5,29 +5,30 @@ import { authenticateToken } from "../middleware/auth.js";
 import { clientRequests } from "../models/clientRequests.js";
 import { users } from "../models/user.js";
 import { USER_FIELD } from "../middleware/auth.js";
+import { workShifts } from "../models/workshift.js";
 const router: Router = express.Router();
 
-router.get("/client-request", authenticateToken("master"), (req, res) => {
-  const user = req.body[USER_FIELD];
-
-  const pendingTasks = Array.from(clientRequests.entries())
-    .filter(([key, request]) => {
-      return request.id === user.id;
-    })
-    .map(([key, r]) => {
-      return r;
+router.get(
+  "/workshift/client-requests",
+  authenticateToken("master"),
+  (req, res) => {
+    const user = req.body[USER_FIELD];
+    const pendingTasks = Array.from(workShifts.values()).flatMap((ws) => {
+      return Array.from(ws.clientRequests.values()).filter(
+        (r) => r.assigneeId === user.id,
+      );
     });
-
-  res.status(StatusCodes.OK).json({
-    message: "Pending tasks retrieved successfully.",
-    data: {
-      pendingTasks,
-    },
-  });
-});
+    res.status(StatusCodes.OK).json({
+      message: "Pending tasks retrieved successfully.",
+      data: {
+        pendingTasks,
+      },
+    });
+  },
+);
 
 router.get(
-  "/client-request/:requestId",
+  "/workshift/client-requests/:requestId",
   authenticateToken("master"),
   (req, res) => {
     const { requestId } = req.params;

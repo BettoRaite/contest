@@ -1,4 +1,4 @@
-type ClientRequest = {
+export type ClientRequest = {
   id: number;
   description: string;
   assigneeId: number | null;

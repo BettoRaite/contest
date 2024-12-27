@@ -6,6 +6,10 @@ import { idGenerator } from "../lib/utils/unique.js";
 import { authenticateToken } from "../middleware/auth.js";
 import { users, type User } from "../models/user.js";
 import { workShifts } from "../models/workshift.js";
+import {
+  type ClientRequest,
+  clientRequests,
+} from "../models/clientRequests.js";
 
 const upload = multer({ dest: "./public/data/uploads/" });
 const router: Router = express.Router();
@@ -34,7 +38,7 @@ router.post(
     });
 
     res.status(StatusCodes.OK).json({
-      message: "Successfully create new user",
+      message: "Successfully created new user",
     });
   },
 );
@@ -98,6 +102,8 @@ router.post("/work-shift", authenticateToken("admin"), (req, res) => {
     end: endTime,
     status: "not_active",
     employeeIds: [],
+    clientRequests: new Map<string, ClientRequest>(),
+    createdAt: new Date(),
   });
   res.status(StatusCodes.OK).json({
     message: "Successfully added new shift",
@@ -220,6 +226,27 @@ router.delete(
       message: "Successfully removed employee from shift",
       data: {
         workshift,
+      },
+    });
+  },
+);
+
+router.get(
+  "/work-shift/:id/client-requests",
+  authenticateToken("admin"),
+  (req, res) => {
+    const { id } = req.params;
+    const workshift = workShifts.get(id);
+    if (!workshift) {
+      res.status(StatusCodes.NOT_FOUND).json({
+        message: "Not found",
+      });
+      return;
+    }
+    res.status(StatusCodes.OK).json({
+      message: `Client requests of workshift with id of ${id}`,
+      data: {
+        clientRequests: workshift.clientRequests,
       },
     });
   },
