@@ -1,0 +1,705 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
+  "version": "5",
+  "dialect": "mysql",
+  "tables": {
+    "menu_categories": {
+      "name": "menu_categories",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "menu_categories_id": {
+          "name": "menu_categories_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "menus": {
+      "name": "menus",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "autoincrement": false,
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "price": {
+          "autoincrement": false,
+          "name": "price",
+          "type": "double(8,2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "menu_category_id": {
+          "autoincrement": false,
+          "name": "menu_category_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "autoincrement": false,
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "autoincrement": false,
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "menus_id": {
+          "name": "menus_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "menus_menu_category_id_foreign": {
+          "name": "menus_menu_category_id_foreign",
+          "tableFrom": "menus",
+          "tableTo": "menu_categories",
+          "columnsFrom": [
+            "menu_category_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "order_menus": {
+      "name": "order_menus",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "menu_id": {
+          "autoincrement": false,
+          "name": "menu_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "order_id": {
+          "autoincrement": false,
+          "name": "order_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "count": {
+          "default": 1,
+          "autoincrement": false,
+          "name": "count",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "autoincrement": false,
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "autoincrement": false,
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "order_menus_id": {
+          "name": "order_menus_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "order_menus_menu_id_foreign": {
+          "name": "order_menus_menu_id_foreign",
+          "tableFrom": "order_menus",
+          "tableTo": "menus",
+          "columnsFrom": [
+            "menu_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "order_menus_order_id_foreign": {
+          "name": "order_menus_order_id_foreign",
+          "tableFrom": "order_menus",
+          "tableTo": "orders",
+          "columnsFrom": [
+            "order_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "orders": {
+      "name": "orders",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "number_of_person": {
+          "autoincrement": false,
+          "name": "number_of_person",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "table_id": {
+          "autoincrement": false,
+          "name": "table_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "shift_worker_id": {
+          "autoincrement": false,
+          "name": "shift_worker_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status_order_id": {
+          "autoincrement": false,
+          "name": "status_order_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "autoincrement": false,
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "autoincrement": false,
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "orders_id": {
+          "name": "orders_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "orders_shift_worker_id_foreign": {
+          "name": "orders_shift_worker_id_foreign",
+          "tableFrom": "orders",
+          "tableTo": "shift_workers",
+          "columnsFrom": [
+            "shift_worker_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "orders_status_order_id_foreign": {
+          "name": "orders_status_order_id_foreign",
+          "tableFrom": "orders",
+          "tableTo": "status_orders",
+          "columnsFrom": [
+            "status_order_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "orders_table_id_foreign": {
+          "name": "orders_table_id_foreign",
+          "tableFrom": "orders",
+          "tableTo": "tables",
+          "columnsFrom": [
+            "table_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "roles": {
+      "name": "roles",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "code": {
+          "autoincrement": false,
+          "name": "code",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "roles_id": {
+          "name": "roles_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {
+        "roles_code_unique": {
+          "name": "roles_code_unique",
+          "columns": [
+            "code"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "shift_workers": {
+      "name": "shift_workers",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "work_shift_id": {
+          "autoincrement": false,
+          "name": "work_shift_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "autoincrement": false,
+          "name": "user_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "autoincrement": false,
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "autoincrement": false,
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "shift_workers_id": {
+          "name": "shift_workers_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "shift_workers_user_id_foreign": {
+          "name": "shift_workers_user_id_foreign",
+          "tableFrom": "shift_workers",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "shift_workers_work_shift_id_foreign": {
+          "name": "shift_workers_work_shift_id_foreign",
+          "tableFrom": "shift_workers",
+          "tableTo": "work_shifts",
+          "columnsFrom": [
+            "work_shift_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "status_orders": {
+      "name": "status_orders",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "code": {
+          "autoincrement": false,
+          "name": "code",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "status_orders_id": {
+          "name": "status_orders_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "tables": {
+      "name": "tables",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "capacity": {
+          "autoincrement": false,
+          "name": "capacity",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "tables_id": {
+          "name": "tables_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "users": {
+      "name": "users",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "surname": {
+          "autoincrement": false,
+          "name": "surname",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "patronymic": {
+          "autoincrement": false,
+          "name": "patronymic",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "login": {
+          "autoincrement": false,
+          "name": "login",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "autoincrement": false,
+          "name": "password",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "photo_file": {
+          "autoincrement": false,
+          "name": "photo_file",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "api_token": {
+          "autoincrement": false,
+          "name": "api_token",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "default": "'working'",
+          "autoincrement": false,
+          "name": "status",
+          "type": "enum('working','fired')",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role_id": {
+          "autoincrement": false,
+          "name": "role_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "autoincrement": false,
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "autoincrement": false,
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "users_id": {
+          "name": "users_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "users_role_id_foreign": {
+          "name": "users_role_id_foreign",
+          "tableFrom": "users",
+          "tableTo": "roles",
+          "columnsFrom": [
+            "role_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {
+        "users_login_unique": {
+          "name": "users_login_unique",
+          "columns": [
+            "login"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "work_shifts": {
+      "name": "work_shifts",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start": {
+          "autoincrement": false,
+          "name": "start",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "end": {
+          "autoincrement": false,
+          "name": "end",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "active": {
+          "default": 0,
+          "autoincrement": false,
+          "name": "active",
+          "type": "tinyint(1)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "autoincrement": false,
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "autoincrement": false,
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "work_shifts_id": {
+          "name": "work_shifts_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    }
+  },
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "tables": {},
+    "indexes": {}
+  }
+}

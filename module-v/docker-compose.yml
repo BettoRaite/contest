@@ -1,0 +1,65 @@
+version: '3.9'
+
+services:
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    volumes:
+      - ./src:/app/src # Ensure your source files are mounted
+      - ./package.json:/app/package.json
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./tsconfig.build.json:/app/tsconfig.build.json
+    image: auth-service:latest
+    container_name: auth-service
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://postgres:root@db:5432/${POSTGRES_DATABASE} # Updated for PostgreSQL
+      PORT: ${PORT}
+    depends_on:
+      db:
+        condition: service_healthy # Ensure it waits for the DB to be healthy
+    restart: unless-stopped
+    command: ['dumb-init', '/bin/sh', '-c', 'pnpm run dev']
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./package.json
+    networks:
+      - express-server-suit
+  db:
+    image: postgres:17 # Use the official PostgreSQL image (adjust version as needed)
+    container_name: db
+    # volumes:
+    #   - db-data:/var/lib/postgresql/data # Persistent storage for PostgreSQL data
+    ports:
+      - '5432:5432' # Expose PostgreSQL port
+    environment:
+      POSTGRES_USER: postgres # Default user for PostgreSQL
+      POSTGRES_PASSWORD: root # Password for the default user
+      POSTGRES_DB: ${POSTGRES_DATABASE} # Database to create on startup
+    env_file:
+      - ./.env
+    restart: always
+    healthcheck:
+      # specifying user and database is needed to avoid `FATAL:  role "root" does not exist`
+      # spam in the logs
+      test:
+        ['CMD', 'pg_isready', '-U', 'postgres', '-d', '${POSTGRES_DATABASE}']
+      interval: 5s
+      timeout: 2s
+      retries: 20
+    networks:
+      - express-server-suit
+networks:
+  express-server-suit:
+    external: true # Indicate that this is an external network

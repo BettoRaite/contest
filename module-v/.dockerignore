@@ -1,0 +1,8 @@
+node_modules
+yarn-error.log
+coverage
+.env
+**/bin
+**/obj
+**/node_modules
+.git
