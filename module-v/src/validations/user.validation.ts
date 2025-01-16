@@ -21,7 +21,7 @@ export const userRegistrationSchema = z.object({
         message: 'Photo file must be a JPEG or PNG'
       }
     ),
-  role_id: z.number().int().positive('Role ID must be a positive integer')
+  roleId: z.number().int().positive('Role ID must be a positive integer')
 });
 
 export type UserRegistrationSchema = z.infer<typeof userRegistrationSchema>;

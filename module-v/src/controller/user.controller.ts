@@ -5,7 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import db from '@/db';
 import { users } from 'drizzle/schema';
 
-const handleGetUsers = async (_: Request, res: Response) => {
+export const handleGetUsers = async (_: Request, res: Response) => {
   const users = await getUsers();
   const formatted = users.map((u) => {
     return {
@@ -22,13 +22,17 @@ const handleGetUsers = async (_: Request, res: Response) => {
   });
 };
 
-export const handleAddUser = async (req: Request, res: Response) => {
-  const user = req.body as unknown as UserRegistrationSchema;
-  await db.insert(users).values(user);
-};
+export const handleCreateUser = async (req: Request, res: Response) => {
+  const newUser = req.body as unknown as UserRegistrationSchema;
+  const result = await db.insert(users).values(newUser).$returningId();
+  const { id } = result.at(0) as {
+    id: number;
+  };
 
-const userController = {
-  handleGetUsers
+  res.status(StatusCodes.CREATED).json({
+    data: {
+      id,
+      status: 'created'
+    }
+  });
 };
-
-export default userController;

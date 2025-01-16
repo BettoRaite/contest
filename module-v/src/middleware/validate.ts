@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 
 interface ValidationMiddlewareArgs {
   schema: Schema;
-  part: 'query' | 'body';
+  part: 'query' | 'body' | 'params';
   errorCode: number;
   errorMessage?: string;
 }
@@ -16,7 +16,9 @@ export const validate = ({
 }: ValidationMiddlewareArgs) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     // eslint-disable-next-line security/detect-object-injection
-    const { success, error } = schema.safeParse(req[part]);
+    const { success, error, data } = schema.safeParse(req[part]);
+    // eslint-disable-next-line security/detect-object-injection
+    req[part] = data;
     if (success) {
       next();
       return;
