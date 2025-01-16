@@ -2,8 +2,8 @@ import type { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
 import config from '@/config/config';
-import { getUserById } from '@/db/user.db';
-import { roles, users } from 'drizzle/schema';
+// import { getUserById } from '@/db/user.db';
+// import { users } from 'drizzle/schema';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 const { verify } = jwt;
@@ -32,8 +32,8 @@ export const authenticate = (
   );
 };
 
-export const authorize = (role: roles) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    getUserById(req.payload?.userId as unknown as number);
-  };
-};
+// export const authorize = (role: 'admin' | 'manager' | 'master') => {
+//   return (req: Request, res: Response, next: NextFunction) => {
+//     getUserById(req.payload?.userId as unknown as number);
+//   };
+// };

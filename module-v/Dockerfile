@@ -1,56 +1,27 @@
-# Build stage
-FROM node:22-alpine3.20 AS build
+# Use Node.js Alpine image
+FROM node:22-alpine3.20
 
+# Set the working directory
 WORKDIR /app
 
+# Copy package files
 COPY package.json pnpm-lock.yaml ./
+COPY tsconfig.json tsconfig.build.json tsconfig.test.json ./
 
-RUN npm install -g pnpm husky
-# Install necessary packages
-RUN apk add --no-cache --virtual .build-deps \
-    gcc \
-    g++ \
-    python3 \
+# Install system dependencies and pnpm
+RUN apk add --no-cache npm dumb-init gcc g++ python3 \
+    && npm install -g pnpm \
     && pnpm install --frozen-lockfile --production=false \
-    && apk del .build-deps
+    && apk del gcc g++ python3
 
 # Set environment variable for production
 ENV NODE_ENV=production
 
+# Copy application code
 COPY . .
 
-# Build the application
-RUN pnpm build
-
-# Run stage
-FROM node:22-alpine3.20 AS run
-
-# Set the working directory to /app
-WORKDIR /app
-
-
-COPY package.json pnpm-lock.yaml ./
-
-# Install Node.js, pnpm, and dumb-init in one layer
-RUN apk add --no-cache npm dumb-init \
-    && npm install -g pnpm husky
-
-# Add a non-root user to run the application
-RUN addgroup -g 1001 nodejs \
-    && adduser -D -u 1001 -G nodejs nodejs \
-    && chown -R nodejs:nodejs /app
-
-# # Switch to the non-root user
-USER nodejs
-
 # Install production dependencies
-RUN pnpm install --frozen-lockfile
-# Copy built application code from build stage with ownership change
-COPY --chown=nodejs:nodejs  --from=build /app/dist ./dist
-COPY --chown=nodejs:nodejs  --from=build /app/prisma ./prisma
+RUN pnpm install --frozen-lockfile --prod
 
-# Generate prisma client if necessary (consider optimizing this step)
-RUN pnpm dlx prisma generate
-# "-u", "nodejs"
-# Start the application with dumb-init, specifying user directly in CMD
+# Start the application with dumb-init
 CMD ["dumb-init", "pnpm", "dev"]

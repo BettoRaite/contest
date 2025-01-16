@@ -7,13 +7,12 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ./.env
-    image: auth-service:latest
     container_name: auth-service
     ports:
       - ${PORT}:${PORT}
     environment:
       NODE_ENV: development
-      DATABASE_URL: mysql://root:root@db:3306/${MYSQL_DATABASE} # Updated for MySQL
+      DATABASE_URL: mysql://root:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_DATABASE} # Updated for MySQL
       PORT: ${PORT}
     depends_on:
       db:
@@ -29,20 +28,19 @@ services:
             - node_modules/
         - action: rebuild
           path: ./package.json
-    networks:
-      - express-server-suit
-
   db:
-    image: mysql:8.0 # Use the official MySQL image (adjust version as needed)
+    image: mysql:8.0
     container_name: db
     ports:
-      - '3306:3306' # Expose MySQL port
+      - '3306:3306'
     environment:
-      MYSQL_ROOT_PASSWORD: root # Password for the root user
-      MYSQL_DATABASE: ${MYSQL_DATABASE} # Database to create on startup
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     env_file:
       - ./.env
     restart: always
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test:
         [
@@ -59,9 +57,3 @@ services:
       interval: 5s
       timeout: 2s
       retries: 20
-    networks:
-      - express-server-suit
-
-networks:
-  express-server-suit:
-    external: true # Indicate that this is an external network

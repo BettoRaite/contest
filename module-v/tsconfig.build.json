@@ -1,9 +1,9 @@
 {
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-      "esModuleInterop": true
-    },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules", "__test__", "dist"]
-  }
-  
+  "extends": "./tsconfig.json",
+  "base": ".",
+  "compilerOptions": {
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "__test__", "dist", "drizzle"]
+}
