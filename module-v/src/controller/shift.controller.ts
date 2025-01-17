@@ -2,19 +2,8 @@ import type { Request, Response } from 'express';
 import db from '@/db';
 import { workShifts } from 'drizzle/schema';
 import { StatusCodes } from 'http-status-codes';
-import { TypedRequest } from '@/types/types';
+import type { TypedRequest } from '@/types/types';
 import { eq } from 'drizzle-orm';
-export const handleCreateShift = async (req: Request, res: Response) => {
-  const newShift = req.body;
-  const [shift] = await db.insert(workShifts).values(newShift).$returningId();
-  const { id } = shift as {
-    id: number;
-  };
-  res.status(StatusCodes.CREATED).json({
-    id,
-    ...newShift
-  });
-};
 
 export const handleCreateShift = async (req: Request, res: Response) => {
   const newShift = req.body;
